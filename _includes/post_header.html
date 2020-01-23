@@ -6,7 +6,8 @@
 		Published on {{ page.date | date: date_format }}
 	</div>
 	<ul class="post-tags">
-		{%- for tag in page.categories -%}
+		<a href="{{ site.url }}"><li><i class="icon-home"></i></li></a>
+        {%- for tag in page.categories -%}
 			<li>{{ tag }}</li>
 		{%- endfor -%}
 	</ul>
