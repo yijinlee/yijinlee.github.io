@@ -15,6 +15,7 @@
       <div class="post-container">
           {{ content }}
       </div>
+      <p>&copy; {{ site.author }} {{ site.time | date: '%Y' }}. All Rights Reserved.</p>
 
         <!-- Configure Disqus -->
       {%- if site.texture.disqus_shortname -%}
