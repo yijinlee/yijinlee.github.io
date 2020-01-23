@@ -5,8 +5,10 @@
 	<div class="post-date" style="margin-top:20px">
 		Published on {{ page.date | date: date_format }}
 	</div>
+    <ul class="social">
+        <a href="{{ site.url }}"><li><i class="icon-home"></i></li></a>
+    </ul>
 	<ul class="post-tags">
-		<a href="{{ site.url }}"><li><i class="icon-home"></i></li></a>
         {%- for tag in page.categories -%}
 			<li>{{ tag }}</li>
 		{%- endfor -%}
