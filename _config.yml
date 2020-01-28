@@ -14,7 +14,7 @@ sass:
 permalink: /posts/:title/
 texture:
   title: Yijin's Writings
-  tagline: Engineer. Dev.
+  tagline: Chartered Engineer. Dev.
   date_format: "%b %-d, %Y"
   style: black
   showNav: false
@@ -40,4 +40,4 @@ texture:
 
 plugins:
   - jekyll-seo-tag
-#  - jekyll-feed
+  - jekyll-feed
