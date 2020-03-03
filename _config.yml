@@ -14,7 +14,7 @@ sass:
 permalink: /posts/:title/
 texture:
   title: Yijin's Writings
-  tagline: Chartered Engineer. Dev.
+  tagline: Chartered Engineer. Coder.
   date_format: "%b %-d, %Y"
   style: black
   showNav: false
