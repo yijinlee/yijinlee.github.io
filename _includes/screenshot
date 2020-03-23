@@ -1,0 +1,11 @@
+{% comment %}
+This is copied from https://github.com/fastai/fast_template, but changed their '1px' to '1.5px', as I got too-small screenshots shown when I used their '1px' setting...
+{% endcomment %}
+
+<figure>
+  <img class="image" srcset="/images/{{ include.url }} 2w" sizes="1.5px" src="/images/{{ include.url }}">
+  {% if include.caption %}
+  <figcaption class="image-caption">{{ include.caption }}</figcaption>
+  {% endif %}
+</figure>
+
