@@ -276,4 +276,4 @@ My Singularity example _def_ file explained above can be found [here][repo]. And
 [sifgpu]: https://sylabs.io/guides/3.5/user-guide/gpu.html#nvidia-gpus-cuda
 [sifgpu2]: https://docs.nvidia.com/ngc/ngc-user-guide/singularity.html#running-the-singularity-container
 [sifshell]: https://sylabs.io/guides/3.5/user-guide/cli/singularity_shell.html
-[forum]: https://forums.fast.ai/c/fastai-users/fastai-v2/45
+[forum]: https://forums.fast.ai/t/fastai2-in-singularity-container/66727
