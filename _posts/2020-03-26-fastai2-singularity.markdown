@@ -94,7 +94,13 @@ As a final setup step, install some other libraries and packages used in the [pa
         pandas scikit_learn azure-cognitiveservices-search-imagesearch sentencepiece
 ```
 
-With that, all the necessary installs and setup should be there. I then add the '[start script][start]' that will be executed when the Singularity container is started. In this case, start the Jupyter Notebook server, make it accessible to other computers/IP (firewalled to internal network only, in our case), have the server listen to a non-default port of 9999 (Jupyter default is 8888), give it a password hash for access (in this case, the hash corresponds to password _fastai_), and make it start in the shared filepath on the HPC host system where I cloned the [fastai2][fastai2] and [fastcore][fastcore]  repositories. This is also where I have other shared files needed (e.g. the [part1-v4][v4] course material):
+With that, all the necessary installs and setup should be there. I then add the '[start script][start]' that will be executed when the Singularity container is started. In this case:
+* Start the Jupyter Notebook server
+* Make it accessible to other computers/IP (firewalled to internal network only, in our case)
+* Have the server listen to a non-default port of 9999 (Jupyter default is 8888)
+* Give it a password hash for access (in this case, the hash corresponds to password _fastai_)
+* Make it start in the shared filepath on the HPC host system where I cloned the [fastai2][fastai2] and [fastcore][fastcore]  repositories. This is also where I have other shared files needed (e.g. the [part1-v4][v4] course material)
+
 ```
 %startscript
     jupyter notebook --ip=0.0.0.0 --port=9999 --no-browser \
@@ -182,7 +188,7 @@ I can thus point a web browser to the IP at port 9999, and enter the password (d
 I can also run a [shell][sifshell] within the Singularity container instance, to start interactive Python directly, without going via Jupyter Notebook:
 ```sh
 [ylee@hpc01 shared]$ singularity shell instance://fastai2
-Singularity fastai2.sif:/data/share> python3.7
+Singularity fastai2.sif:/data/shared> python3.7
 Python 3.7.6 (default, Jan  8 2020, 19:59:22)
 [GCC 7.3.0] :: Anaconda, Inc. on linux
 Type "help", "copyright", "credits" or "license" for more information.
