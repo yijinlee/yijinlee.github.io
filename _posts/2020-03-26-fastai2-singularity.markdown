@@ -105,7 +105,7 @@ With that, all the necessary installs and setup should be there. I then add the 
 Finish the _def_ file by adding some basic label and descriptions:
 ```
 %labels
-    ABOUT container for [fastai2][fastai2] (dev editable install) with jupyter notebook on startup (port 9999), for March 2020 fastai course
+    ABOUT container for fastai2 (dev editable install) with jupyter notebook on startup (port 9999), for March 2020 fastai course
     AUTHOR Yijin Lee
 ```
 
