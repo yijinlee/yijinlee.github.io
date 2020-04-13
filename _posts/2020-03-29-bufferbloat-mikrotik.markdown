@@ -15,21 +15,21 @@ From my recent WFH network activities, and partly by pure chance, I happen to st
 
 The [Bufferbloat][bloat] Project explains Bufferbloat as "_the undesirable latency that comes from a router or other network equipment buffering too much data._" Their [wiki][bloatwiki] suggests a simple measure of Bufferbloat using [DSLReports Speed Test][dsl]. When I ran the speed test, I got results that looked like the following:
 
-{% include screenshot url="speedtest_noQoS.png" %}
+{% include screenshot url="/mikrotik/speedtest_noQoS.png" %}
 
 My broadband package is 50Mbit/s down, 5Mbit/s up, and so it _looks_ like I am getting my money's worth (extra ~10% down-link bandwidth!), but the latency seems affected by this Bufferbloat problem, where I observed occasional latencies of >200ms during the speed test:
 
-{% include screenshot url="speedtest_bloat.png" %}
+{% include screenshot url="/mikrotik/speedtest_bloat.png" %}
 
 Their [suggested solution][solution] is to use [Smart Queue Management][sqm] (SQM) in your router, but my —actually, most?— router does not have SQM, unfortunately… However, they did say that [QoS][qos] (which is more widely available in routers) can help, even though it [will not solve][solqos] Bufferbloat completely. And so I can still give it a go~
 
 With my newly setup [Mikrotik][mk] [router][ac2] (more on that [below](#mikrotik-for-home-use)), a bit more Googling brought me to [this][config] nice page, where they have a simple Mikrotik [QoS config][qosconfig] tool. My internet connection details are simple enough, with just a single WAN internet connection to Mikrotik's `ether1` port, and a single `bridge` (for ethernet and WiFi) on the LAN interface side:
 
-{% include screenshot url="mikrotik_interface.png" %}
+{% include screenshot url="/mikrotik/mikrotik_interface.png" %}
 
 Up-link and down-link speeds seem to follow my broadband package specs (see speed test above), and so I can just use `5M` and `50M` on the config tool webpage:
 
-{% include screenshot url="qos_config.png" %}
+{% include screenshot url="/mikrotik/qos_config.png" %}
 
 I left the rest of the settings alone, and just downloaded the resulting script. To be safe, I had a quick look at it in a text editor, and then followed the instructions to import the config script into Mikrotik [Winbox][winbox]. I also had to go into IP - Firewall - Filter Rules, and removed the 'FastTrack' rule so that the new QoS config settings will apply, instead of being bypassed by 'FastTrack'.
 
@@ -37,7 +37,7 @@ The generated config seems to use a queue type called [_PCQ_][pcq], even though 
 
 Then, the moment of truth. I re-ran the [DLSReports Speed Test][dsl], and now it's saying that the Bufferbloat problem is gone, with the rating improving from B to A+, though it looks like the QoS bandwidth limits have caused the speeds to reduce slightly, as a trade-off:
 
-{% include screenshot url="speedtest_pcq.png" %}
+{% include screenshot url="/mikrotik/speedtest_pcq.png" %}
 
 I have since tested a few different speed limit (approx. ±10%) settings in the QoS config, but in the end still settled on the 'rated speeds' for my broadband package. I also tweaked the QoS service list and protocol/port settings, to change the priorities for my own use cases, while also adding new services such as [Microsoft Teams][teams] to higher priority, for video meetings etc.
 
@@ -80,7 +80,7 @@ Next, I circled back to step 3f of [this guide][ligos], to setup an isolated gue
 
 Finally, wary of potential [vulnerabilities][cve] if firmware/packages go out-of-date, I found and followed [this][reddit] (thanks, _/u/beeyev_!) to setup automatic backup and update for the Mikrotik router. A quick look at the [script][beeyev] did not throw up any obvious red flags, so I just imported it into [Winbox][winbox] and set it up according to the clearly commented instructions. I enabled the setting to install only _patch_ minor version updates, and also setup auto-email whenever the script runs (scheduled for every two days). The email feature needs an [SMTP][smtp] server, so I just followed the recommendation and used the excellent free service on [smtp2go][smtp2go]. One small note: in Mikrotik's [Email][email] settings, for "Start TLS" the `tls_only` option did not work for me, so I chose `yes` instead, and it all seems to work fine:
 
-{% include screenshot url="email_tls.png" %}
+{% include screenshot url="/mikrotik/email_tls.png" %}
 
 That's all for this post. Time to get back to WFH with strange working hours…
 
