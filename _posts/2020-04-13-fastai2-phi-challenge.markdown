@@ -288,6 +288,8 @@ I also 'corrected' (by my interpretation) the labels for about 120 images, which
 
 After these corrections, in about 30 minutes of training across four quick experimental notebooks, the best error rate I got was around 6.6% with a pretrained ResNet50 model, or a 93.4% accuracy. Looking at [this pdf][pdf], the 2018 PHI Challenge winners achieved a test set accuracy of 95% for Task 1, using ensembles of trained models. The mean accuracy for Task 1 was 89%, so my numbers (caveat below) are between the mean and the winner (closer to the winner), which is not too bad : )
 
+![pdf](/images/phi/peerpdf.png)
+
 Some thoughts on these:
 
 * For the amount of work put into these quick exploration and training, I am quite happy with the accuracy of 93% vs. the winning 95% (back in 2018), though obviously note that a difference of ~18 months is aaaaaaaages in the Deep Learning world in terms of improvements in techniques, best practices, and results metrics!
