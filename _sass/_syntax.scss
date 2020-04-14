@@ -59,3 +59,21 @@ pre.highlight, code {
 	  border: 1px solid $table-border-color;
 	}
  }
+
+ // Handle Overflow With Table Output, from https://github.com/fastai/fastpages
+
+table {
+	display: block !important;
+	overflow-x: auto;
+	white-space: nowrap;
+	font-size: 75%;
+	border:none;
+	th{
+	  text-align: center! important;
+	}
+	td{
+	  text-overflow:ellipsis;
+	  overflow:hidden;
+	  max-width: 15em;
+	}
+  }
