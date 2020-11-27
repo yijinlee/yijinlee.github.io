@@ -226,6 +226,7 @@ header {
 }
 
 .navbar {
+	display: flex;
 	position: absolute;
 	top: 0;
 	right: 5vw;
@@ -250,6 +251,10 @@ header {
 				background-color: rgba(#fff, 0.15);
 				cursor: pointer;
 			}
+			&.active {
+				background-color: rgba(#fff, 0.15);
+			}
 		}
 	}
 }
+
