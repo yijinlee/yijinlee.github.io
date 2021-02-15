@@ -1,0 +1,108 @@
+---
+layout: post
+title:  "A Look at DeFi Yield Farming on Uniswap V2"
+description: Yield farming and liquidity pools on Uniswap V2.
+date:   2021-02-15 18:00:00 +0
+categories: DeFi Blockchain Crypto
+---
+There are quite a few seemingly strange words in the title of my first new blog post in ≈10 months. I will start with a few links to quickly lay out what they are : )
+
+## Jargon
+
+To quote [Coindesk]: "_[Uniswap] is a leading **decentralised** crypto exchange that runs on the [Ethereum] blockchain_" (bolded emphasis mine). [Uniswap] is currently operating on the second version of their [smart contract], and thus "[Uniswap] V2". The short story here is that with [Uniswap], anyone can be a [market-maker] (and/or [taker]) when it comes to the exchange (or "swapping") of [ERC20] cryptocurrency tokens, relying on [smart contract] code rather than a centralised exchange to execute such trades. This is part of the relatively new development of Decentralised Finance ([DeFi]).
+
+"[Yield Farming]" in [DeFi] is when you earn a % [yield] for your cryptocurrency tokens, e.g. where you commit your [ERC20] tokens into Uniswap [liquidity pools] (LPs) to provide [liquidity] for others who may want to execute exchanges/trades/swaps between the [ERC20] tokens. Each "swap" executed by others will attract a fee (fixed at 0.3% of the swapped value on [Uniswap]), which is awarded to liquidity providers as a [yield]. All these are done automatically by the [smart contract].
+
+## Some Pre-Requisites
+
+All operations on [Uniswap] are done via [Ethereum] blockchain's [smart contract] transactions. There are some pre-requisites needed to provide liquidity:
+
+1. [ERC20] token(s) to be added to [Uniswap] LPs
+1. [Ether] (ETH) to pay for [Ethereum] blockchain [gas] fees ([smart contract] transaction fees), and optionally to form the token pair with the ERC20 token above, if that is the token pair to be added to LPs.
+1. The two above need to be held within an [Ethereum] cryptocurrency [wallet] that is supported by the [Uniswap interface] (see screenshot below, as of the date of this post)
+
+{% include screenshot url="/uniswap/wallets.PNG" %}
+
+## Checking Uniswap LP Info
+
+As in traditional finance, it is prudent to check and confirm the info and details about [DeFi] operations you might want to make. In this case, the best place to start would be on [Uniswap Info]. It will show you the [tokens] with the most liquidity committed, and similarly the info for popular [token pairs], including their volumes (how much has been exchanged/swapped) and thus the fees (0.3% of volume) attracted and distributed as [yield] to the liquidity providers.
+
+Note that currently in the [token pairs] info table on [Uniswap Info], the "1y Fees / Liquidity" column is extrapolated based on 24hr volume annualised, i.e. it is taking the "Fees (24hr)" column, multiplying it by 365 days, and dividing it by the "Liquidity" column to give a representation of % [yield]. This might not be a very good estimate due to the many assumptions implied, namely the "Fees (24hr)" —which is 0.3% × "Volume (24hrs)"— and the "Liquidity" staying constant for 365 days, which is quite unlikely to hold true. Arguably a better extrapolation would be to take the "Volume (7d)" column (i.e. volume in a week), multiplied by 52 weeks, then multiplied by 0.3% to get the estimated annual fees, and finally divided by "Liquidity" to get a different estimate for "1y Fees / Liquidity", though note that this just uses a different set of assumptions!
+
+Another more detailed check of the LP info would be to get the actual data points for the LP and crunch more numbers. The data can be found on [The Graph Network]'s [Uniswap subgraph], which is also where [Uniswap Info] gets its data from, for all its tables and charts. (As an aside, [The Graph Network] seems to be another very exciting looking project in [DeFi]!)
+
+A quick and dirty way of getting some useful data for the [token pairs] of interest would be to note down the smart contract address for the token pair, e.g. for [UNI-ETH] the link is `https://info.uniswap.org/pair/0xd3d2e2692501a5c9ca623199d38826e513033a17` and thus the smart contract address (the `pairAddress`) is `0xd3d2e2692501a5c9ca623199d38826e513033a17`. Then, in the [Uniswap subgraph]'s Playground, running the following query code will return some relevant past data for a maximum of `1000` daily data points, in [JSON] format.
+
+```json
+{
+    pairDayDatas(first: 1000, orderBy: date, orderDirection: desc, where: 
+    { pairAddress: "0xd3d2e2692501a5c9ca623199d38826e513033a17" }) {
+      date
+      dailyVolumeToken0
+      dailyVolumeToken1
+      dailyVolumeUSD
+      reserveUSD
+    }
+}
+```
+
+You can then feed this data into your own calculations, be it spreadsheets or data analysis code packages (e.g. in Python), and get different representations of % yield estimates. For example, % yield annualised from the past 30 days of data (or 60 days, or 90 days, etc.).
+
+## Contributing Liquidity to Uniswap LPs
+
+If you decide that you actually want to contribute liquidity using your [ERC20] token(s) and ETHs for yield farming on [Uniswap], you can Google and find many how-to guides and articles about the steps, e.g. [this one].
+
+Note that the [ERC20] token(s) and ETH need to be in the same Ethereum address. Then, using the [Uniswap interface] and your Ethereum wallet, you need to sign and broadcast two transactions:
+* The first one to give approval for the [Uniswap] V2 [smart contract] to operate on your [ERC20] token(s);
+* the second one to actually commit and transfer the amount of token pair you want into the [Uniswap] LP.
+
+These two transactions will require Ethereum [gas] fees, with the "approval" step taking ≈50k [gas] units, and the "commit liquidity" step taking ≈150k [gas] units. At current prices (for ETH and [gas prices]), these ≈200k [gas] units could cost >$30, possibly even up to ≈$100! This needs to be taken into account in your % yield estimate calculations, including the fact that there will be another two transactions needed in future to remove the liquidity you committed, so that you get back your token pair plus any yield earned.
+
+Once you have successfully added your token pair into the Uniswap LP, if you append the Ethereum address that your token(s) and ETH were originally in, behind the Uniswap info address of `https://info.uniswap.org/account/`, you will be able to see more info about the liquidity that you added. For example, according to the recent transactions listed on the [UNI-ETH] token pair info page, some newly added [UNI-ETH] liquidity came from the address `0x26b7f43e5d1db167fc4b9cde1bc7fa16c84e729a`, and so the link `https://info.uniswap.org/account/0x26b7f43e5d1db167fc4b9cde1bc7fa16c84e729a` will show info on that added liquidity, including the fees (denominated in USD) earned so far. The current exact quantities of the tokens (and ETH, if part of the token pair) are dependent on the current price ratio between the token pair, whereby changes in the price ratio will result in what is known as "divergent loss" (a.k.a. "impermanent loss").
+
+## Divergent/Impermanent Loss
+
+Google search will return [many] different [useful posts] and [articles] explaining divergent/impermanent loss in [Uniswap]. The short version is that if the current price ratio between the committed token pair is different from the price ratio at the point of the token pair being added into LP, there will be a current "paper loss" compared to if the tokens were just held and not added to the LP at all to begin with. It's all mathematical in the pricing and swapping calculations in [Uniswap], well described in the articles linked above, and defined in the [smart contract]s.
+
+Divergent loss is not linear, and can be tricky. As a quick rule of thumb, any price ratio change of ×2 (or, symmetrically, ×0.5 for the inverse) will result in a divergent loss of ≈5.7%. However, note that if one of the tokens in the committed token pair experiences a huge reduction in price, it can result in near total losses for the liquidity provider, i.e. if the token pair price ratio goes to zero (equivalent to infinity for the inverse ratio), the total worth of the committed liquidity will go to zero! See the bottom left corner of the plot below, from Uniswap V2 [docs]:
+
+{% include screenshot url="/uniswap/loss.png" %}
+
+Incidentally the near total loss described above is what happens in many [DeFi] scams, one of which is where a fake/shit coin that is not tradable on other exchanges (or only traded in tiny volumes elsewhere) is added to [Uniswap] as part of a token pair (e.g. with ETH), and then artificial volume on Uniswap is generated by [wash trading] of the token pair to create a temporary illusion of high fees/yield (showing up "top of the table" for `1y Fees/Liquidity` on [Uniswap Info]), but when victims add significant amount of liquidity for this token pair to earn the high yield, the scammers swoop in with their huge holding of the fake/shit coin to swap and extract the ETH side of the token pair, leaving the victims holding a bag consisting solely of the actually worthless fake/shit coin.
+
+In terms of earning yield (fees) while minimising divergent loss, token pairs that have a zig-zag or see-saw type of price ratio changes will likely provide the best returns, as the up-down-up-down changes in price ratio will attract swapping/exchange volumes from [arbitrageurs], while getting minimal divergent loss since the price ratio is only swinging around a stable value. However, somewhat obvious to state, it is impossible to easily identify such token pairs! =P
+
+Hopefully this is a useful look at [DeFi] yield farming on [Uniswap] V2.
+
+[coindesk]: https://www.coindesk.com/what-is-uniswap-complete-guide
+[uniswap]: https://uniswap.org/
+[ethereum]: https://ethereum.org/en/
+[market-maker]: https://en.wikipedia.org/wiki/Market_maker
+[taker]: https://academy.binance.com/en/articles/what-are-makers-and-takers
+[ERC20]: https://blockgeeks.com/guides/erc20-tokens/
+[DeFi]: https://en.wikipedia.org/wiki/Decentralized_finance
+[liquidity pools]: https://uniswap.org/docs/v2/core-concepts/pools/
+[Yield Farming]: https://decrypt.co/resources/what-is-yield-farming-beginners-guide
+[yield]: https://en.wikipedia.org/wiki/Yield_(finance)
+[liquidity]: https://en.wikipedia.org/wiki/Market_liquidity
+[gas]: https://blockgeeks.com/guides/ethereum-gas/
+[Ether]: https://en.wikipedia.org/wiki/Ethereum#Ether
+[Uniswap interface]: https://app.uniswap.org/
+[wallet]: https://ethereum.org/en/wallets/
+[smart contract]: https://blockgeeks.com/guides/smart-contracts/
+[Metamask]: https://metamask.io/
+[Uniswap Info]: https://info.uniswap.org/home
+[tokens]: https://info.uniswap.org/tokens
+[token pairs]: https://info.uniswap.org/pairs
+[The Graph Network]: https://thegraph.com
+[Uniswap subgraph]: https://thegraph.com/explorer/subgraph/uniswap/uniswap-v2
+[UNI-ETH]: https://info.uniswap.org/pair/0xd3d2e2692501a5c9ca623199d38826e513033a17
+[JSON]: https://en.wikipedia.org/wiki/JSON
+[this one]: https://medium.com/phantasticphantasma/providing-liquidity-on-uniswap-ca4415f9534e
+[gas prices]: https://ethgas.watch
+[many]: https://uniswap.org/docs/v2/advanced-topics/understanding-returns/
+[useful posts]: https://pintail.medium.com/uniswap-a-good-deal-for-liquidity-providers-104c0b6816f2
+[articles]: https://academy.binance.com/en/articles/impermanent-loss-explained
+[wash trading]: https://en.wikipedia.org/wiki/Wash_trade
+[arbitrageurs]: https://en.wikipedia.org/wiki/Arbitrage
+[docs]: https://uniswap.org/docs/v2/advanced-topics/understanding-returns/
